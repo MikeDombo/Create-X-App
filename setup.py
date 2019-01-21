@@ -1,5 +1,4 @@
 from setuptools import setup
-import sys
 
 from pathlib import Path  # noqa E402
 

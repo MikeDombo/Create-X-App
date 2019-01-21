@@ -5,10 +5,12 @@ verify_ssl = true
 
 [dev-packages]
 black = "*"
+flake8 = "*"
 
 [packages]
 pyyaml = ">=4.2b1"
 jinja2 = "*"
+gitpython = "*"
 
 [requires]
 python_version = "3.7"
