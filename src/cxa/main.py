@@ -7,7 +7,6 @@ import yaml
 import json
 from typing import Dict
 from jinja2 import Template
-from distutils.dir_util import copy_tree
 import re
 
 
@@ -18,6 +17,13 @@ def getCommand():
         "--directory",
         type=str,
         help="Directory containing manifest.cxa.yml",
+        required=True,
+    )
+    parser.add_argument(
+        "-o",
+        "--output_directory",
+        type=str,
+        help="Output directory (will be a modified copy of the original directory)",
         required=True,
     )
     parser.add_argument(
@@ -72,9 +78,18 @@ def main():
         pass
 
     directory_path = pathlib.Path(args.directory).resolve()
-    new_path = os.path.join(str(directory_path.parent), directory_path.name + "_COPY")
+    output_directory_path = pathlib.Path(args.output_directory).resolve()
+    new_path = str(
+        pathlib.Path.joinpath(
+            directory_path.parent, output_directory_path, directory_path.name
+        )
+    )
 
-    copy_tree(directory_path, new_path)
+    if os.path.exists(str(new_path)):
+        print(f"Destination directory {str(new_path)} must not exist!")
+        sys.exit(1)
+    else:
+        shutil.copytree(str(directory_path), str(new_path))
 
     for dirname, dirnames, filenames in os.walk(new_path, followlinks=True):
         for dname in dirnames:
