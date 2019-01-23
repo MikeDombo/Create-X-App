@@ -28,8 +28,7 @@ class Commands:
         print("=" * 30)
         print("Running isort")
         call_command(
-            "isort -rc --multi-line=3 --trailing-comma --force-grid-wrap=0 --use-parentheses --line-width=120 ./src "
-            + " ".join(args)
+            "isort -rc ./src " + " ".join(args)
         )
         print("=" * 30)
 
@@ -49,8 +48,7 @@ class Commands:
         print("=" * 30)
         print("Running isort")
         call_command(
-            "isort -rc --diff --multi-line=3 --trailing-comma --force-grid-wrap=0 --use-parentheses --line-width=120 ./src "
-            + " ".join(args)
+            "isort -rc --check-only ./src " + " ".join(args)
         )
         print("=" * 30)
 
