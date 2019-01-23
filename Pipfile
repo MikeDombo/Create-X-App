@@ -12,6 +12,7 @@ isort = "*"
 pyyaml = ">=4.2b1"
 jinja2 = "*"
 gitpython = "*"
+falcon = "*"
 
 [requires]
 python_version = "3.7"
