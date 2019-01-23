@@ -1,4 +1,6 @@
 # Create-X-App
+Templated application creation system. Just choose a template and provide values for its variables and have a working system
+running immediately. 
 
 ## Installation
 
