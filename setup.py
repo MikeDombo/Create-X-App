@@ -1,6 +1,6 @@
-from setuptools import setup
-
 from pathlib import Path  # noqa E402
+
+from setuptools import setup
 
 CURRENT_DIR = Path(__file__).parent
 

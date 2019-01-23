@@ -1,14 +1,16 @@
 import argparse
+import json
 import os
+import pathlib
+import re
 import shutil
 import sys
-import pathlib
-import yaml
-import json
+from distutils.util import strtobool
 from typing import Dict
-from jinja2 import Template
-import re
+
 import git
+import yaml
+from jinja2 import Template
 
 
 def getCommand():
@@ -23,6 +25,7 @@ def getCommand():
         help="Output directory (will be a modified copy of the original directory)",
     )
     parser.add_argument("-f", "--file", type=str, help="JSON file containing template replacements")
+    parser.add_argument("-D", nargs="*", action="append")
 
     return parser.parse_args()
 
@@ -100,16 +103,32 @@ def getManifest(args):
 def getTemplateVariables(args, manifest):
     template_variables = dict()
     if manifest.get("uses_template_variables", False):
-        if args.file is None:
-            print("This template uses variables, please provide the template variable file")
+        if args.file is None and args.D is None:
+            print(
+                "This template uses variables, please provide the template variable file or in -Dvar=value as "
+                "command line arguments"
+            )
             sys.exit(1)
-        elif not os.path.exists(args.file):
+        elif args.file is not None and not os.path.exists(args.file):
             print("This template uses variables, the template file you provided doesn't exist")
             sys.exit(1)
-        else:
+        elif args.file is not None:
             with open(args.file, "r") as file:
                 template_variables = json.load(file, encoding="utf-8")
+        elif args.D:
+            template_variables = {
+                str(x[0]).split("=")[0]: convertType("=".join(str(x[0]).split("=")[1:])) for x in args.D
+            }
     return template_variables
+
+
+def convertType(val):
+    constructors = [strtobool, int, float, str]
+    for c in constructors:
+        try:
+            return c(val)
+        except ValueError:
+            pass
 
 
 def typeMap(t: str):

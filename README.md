@@ -21,4 +21,4 @@ running immediately.
 }
 ```
 
--   Run `pipenv run python ./src/cxa/main.py -g https://github.com/MikeDombo/CXAPythonCLI.git -o ../CXATest -f ../template.json`
+-   Run `pipenv run python cxa.py main -g https://github.com/MikeDombo/CXAPythonCLI.git -o ../CXATest -f ../template.json`
