@@ -1,0 +1,7 @@
+version: "3"
+services:
+    cxa:
+        build: "./"
+        image: cxa:latest
+        ports:
+            - 8000:8000

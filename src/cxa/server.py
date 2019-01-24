@@ -27,7 +27,7 @@ def make_error(res, error_text, errors=[]):
     res.body = json.dumps({"success": False, "error": error_text, "errors": errors})
 
 
-cors = CORS(allow_all_origins=True)
+cors = CORS(allow_all_origins=True, allow_all_methods=True, allow_all_headers=True)
 
 
 class TransformationResource:
