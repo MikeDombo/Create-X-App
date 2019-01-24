@@ -27,9 +27,7 @@ class Commands:
     def format(args):
         print("=" * 30)
         print("Running isort")
-        call_command(
-            "isort -rc ./src " + " ".join(args)
-        )
+        call_command("isort -rc ./src " + " ".join(args))
         print("=" * 30)
 
         print("Running Black")
@@ -47,9 +45,7 @@ class Commands:
     def lint(args):
         print("=" * 30)
         print("Running isort")
-        call_command(
-            "isort -rc --check-only ./src " + " ".join(args)
-        )
+        call_command("isort -rc --check-only ./src " + " ".join(args))
         print("=" * 30)
 
         print("Running Black")
@@ -65,6 +61,10 @@ class Commands:
     @staticmethod
     def run(args):
         call_command("python src/cxa/main.py " + " ".join(args))
+
+    @staticmethod
+    def server(args):
+        call_command("python src/cxa/server.py " + " ".join(args))
 
     @staticmethod
     def list(args):

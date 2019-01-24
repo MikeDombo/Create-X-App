@@ -8,7 +8,10 @@ from wsgiref import simple_server
 import falcon
 from falcon_cors import CORS
 
-from .transformer import TemplateVariableValidation, handleGit, run
+try:
+    from transformer import TemplateVariableValidation, handleGit, run
+except ModuleNotFoundError:
+    from .transformer import TemplateVariableValidation, handleGit, run
 
 
 def onerror(func, path, exc_info):
@@ -60,7 +63,7 @@ class TransformationResource:
 
 api = falcon.API(middleware=[cors.middleware])
 api.add_route("/transform", TransformationResource())
-api.add_static_route("/static", str(Path("../../static").resolve()))
+api.add_static_route("/", os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../../static/")))
 
 if __name__ == "__main__":
     httpd = simple_server.make_server("127.0.0.1", 8000, api)
