@@ -1,6 +1,6 @@
 import argparse
 
-from cxa.transformer import run, handleGit, getTemplateVariables, TemplateVariableValidation
+from cxa.transformer import TemplateVariableValidation, getTemplateVariables, handleGit, run
 
 
 def getCommand():
@@ -29,7 +29,9 @@ def main():
             print("Cloning git repository")
             args.directory = handleGit(args.git, args.output_directory)
         else:
-            raise Exception("I'm not sure what to do with that -g argument yet. Make sure it is a URL ending with '.git'.")
+            raise Exception(
+                "I'm not sure what to do with that -g argument yet. Make sure it is a URL ending with '.git'."
+            )
 
     try:
         run(args.directory, args.output_directory, template_variables)

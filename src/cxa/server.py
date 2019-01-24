@@ -3,14 +3,16 @@ import os
 import shutil
 import tempfile
 from pathlib import Path
-
-import falcon
 from wsgiref import simple_server
 
-from transformer import run, handleGit, TemplateVariableValidation
+import falcon
+
+from .transformer import TemplateVariableValidation, handleGit, run
+
 
 def onerror(func, path, exc_info):
     import stat
+
     if not os.access(path, os.W_OK):
         # Is the error an access error ?
         os.chmod(path, stat.S_IWUSR)
@@ -52,10 +54,20 @@ class TransformationResource:
             make_error(res, str(e))
 
 
-api = falcon.API()
+class HandleCORS(object):
+    def process_request(self, req, resp):
+        resp.set_header("Access-Control-Allow-Origin", "*")
+        resp.set_header("Access-Control-Allow-Methods", "*")
+        resp.set_header("Access-Control-Allow-Headers", "*")
+        resp.set_header("Access-Control-Max-Age", 1_728_000)  # 20 days
+        if req.method == "OPTIONS":
+            raise HTTPStatus(falcon.HTTP_200, body="\n")
+
+
+api = falcon.API(middleware=[HandleCORS()])
 api.add_route("/transform", TransformationResource())
 api.add_static_route("/static", str(Path("../../static").resolve()))
 
-if __name__ == '__main__':
-    httpd = simple_server.make_server('127.0.0.1', 8000, api)
+if __name__ == "__main__":
+    httpd = simple_server.make_server("127.0.0.1", 8000, api)
     httpd.serve_forever()
