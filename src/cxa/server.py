@@ -6,6 +6,7 @@ from pathlib import Path
 from wsgiref import simple_server
 
 import falcon
+from falcon.http_status import HTTPStatus
 
 from .transformer import TemplateVariableValidation, handleGit, run
 
