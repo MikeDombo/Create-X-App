@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "139953fd35a5b19af4981e310ab955b2dd3ede5f017666f3a14cba0a1add545c"
+            "sha256": "083ccd2df4155f67b4e99ecba698408a1a2108f680e182d822339d391f91f102"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -23,6 +23,13 @@
             ],
             "index": "pypi",
             "version": "==1.4.1"
+        },
+        "falcon-cors": {
+            "hashes": [
+                "sha256:1788ec5c31b5a39240f7979a7c7170a33ea4952dc97e151858a82dcde1a9fe8a"
+            ],
+            "index": "pypi",
+            "version": "==1.1.7"
         },
         "gitdb2": {
             "hashes": [

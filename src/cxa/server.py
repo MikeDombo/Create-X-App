@@ -6,7 +6,7 @@ from pathlib import Path
 from wsgiref import simple_server
 
 import falcon
-from falcon.http_status import HTTPStatus
+from falcon_cors import CORS
 
 from .transformer import TemplateVariableValidation, handleGit, run
 
@@ -25,6 +25,9 @@ def onerror(func, path, exc_info):
 def make_error(res, error_text, errors=[]):
     res.status = falcon.HTTP_BAD_REQUEST
     res.body = json.dumps({"success": False, "error": error_text, "errors": errors})
+
+
+cors = CORS(allow_all_origins=True)
 
 
 class TransformationResource:
@@ -55,17 +58,7 @@ class TransformationResource:
             make_error(res, str(e))
 
 
-class HandleCORS(object):
-    def process_request(self, req, resp):
-        resp.set_header("Access-Control-Allow-Origin", "*")
-        resp.set_header("Access-Control-Allow-Methods", "*")
-        resp.set_header("Access-Control-Allow-Headers", "*")
-        resp.set_header("Access-Control-Max-Age", 1_728_000)  # 20 days
-        if req.method == "OPTIONS":
-            raise HTTPStatus(falcon.HTTP_200, body="\n")
-
-
-api = falcon.API(middleware=[HandleCORS()])
+api = falcon.API(middleware=[cors.middleware])
 api.add_route("/transform", TransformationResource())
 api.add_static_route("/static", str(Path("../../static").resolve()))
 
