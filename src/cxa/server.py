@@ -33,7 +33,15 @@ def make_error(res, error_text, errors=[]):
 cors = CORS(allow_all_origins=True, allow_all_methods=True, allow_all_headers=True)
 
 
+def cleanup(req, res, resource):
+    try:
+        os.remove(resource.output_zip_full)
+    except:
+        pass
+
+
 class TransformationResource:
+    @falcon.after(cleanup)
     def on_post(self, req, res):
         ipt = req.media
         try:
@@ -52,7 +60,7 @@ class TransformationResource:
 
             res.content_type = "application/zip"
             res.stream = open(output_zip_full, "rb")
-            os.remove(output_zip_full)
+            self.output_zip_full = output_zip_full
         except TemplateVariableValidation as e:
             make_error(res, str(e), e.errors)
         except KeyError:
