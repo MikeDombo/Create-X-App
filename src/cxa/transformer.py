@@ -134,7 +134,7 @@ def validateVariable(toValidate, definition):
             if definition["validation"].startswith(k):
                 rule = definition["validation"]
                 rule = re.fullmatch(k + r"\((.*)\)", rule).group(1)
-                if (re.search(r"\s", toValidate) is None) == v:
+                if (re.search(rule, toValidate) is None) == v:
                     return f"{toValidate} failed to validate with rule: {rule}"
 
     return None
