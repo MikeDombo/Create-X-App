@@ -140,9 +140,9 @@ def validateVariable(toValidate, definition):
         if isinstance(definition["validation"], dict):
             if "min" in definition["validation"]:
                 if toValidate < definition["validation"]["min"]:
-                    return f"{toValidate} must be greater than or equal to {definition["validation"]["min"]}"
+                    return f"{toValidate} must be greater than or equal to {definition['validation']['min']}"
             if "max" in definition["validation"]:
                 if toValidate >= definition["validation"]["max"]:
-                    return f"{toValidate} must be less than {definition["validation"]["max"]}"
+                    return f"{toValidate} must be less than {definition['validation']['max']}"
 
     return None
