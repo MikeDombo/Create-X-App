@@ -33,7 +33,7 @@ def setupPaths(directory, output_directory):
 
 
 def doTemplateReplacement(output_directory_path, template_variables):
-    for dirname, dirnames, filenames in os.walk(output_directory_path, followlinks=True):
+    for dirname, dirnames, filenames in os.walk(output_directory_path, followlinks=True, topdown=False):
         for dname in dirnames:
             if str(dname).startswith("$"):
                 shutil.move(

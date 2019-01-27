@@ -1,6 +1,9 @@
 import argparse
 
-from cxa.transformer import TemplateVariableValidation, getTemplateVariables, handleGit, run
+try:
+    from transformer import TemplateVariableValidation, getTemplateVariables, handleGit, run
+except ModuleNotFoundError:
+    from .transformer import TemplateVariableValidation, getTemplateVariables, handleGit, run
 
 
 def getCommand():
