@@ -131,10 +131,18 @@ def validateVariable(toValidate, definition):
     regexValidations = {"regexMatch": True, "regexNoMatch": False}
     if "validation" in definition:
         for k, v in regexValidations.items():
-            if definition["validation"].startswith(k):
-                rule = definition["validation"]
-                rule = re.fullmatch(k + r"\((.*)\)", rule).group(1)
-                if (re.search(rule, toValidate) is None) == v:
-                    return f"{toValidate} failed to validate with rule: {rule}"
+            if isinstance(definition["validation"], str):
+                if definition["validation"].startswith(k):
+                    rule = definition["validation"]
+                    rule = re.fullmatch(k + r"\((.*)\)", rule).group(1)
+                    if (re.search(rule, toValidate) is None) == v:
+                        return f"{toValidate} failed to validate with rule: {rule}"
+        if isinstance(definition["validation"], dict):
+            if "min" in definition["validation"]:
+                if toValidate < definition["validation"]["min"]:
+                    return f"{toValidate} must be greater than or equal to {definition["validation"]["min"]}"
+            if "max" in definition["validation"]:
+                if toValidate >= definition["validation"]["max"]:
+                    return f"{toValidate} must be less than {definition["validation"]["max"]}"
 
     return None
