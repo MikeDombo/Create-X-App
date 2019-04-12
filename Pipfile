@@ -10,7 +10,7 @@ isort = "*"
 
 [packages]
 pyyaml = ">=4.2b1"
-jinja2 = "*"
+jinja2 = ">=2.10.1"
 gitpython = "*"
 falcon = "*"
 falcon-cors = "*"
